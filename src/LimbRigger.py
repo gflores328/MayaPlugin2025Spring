@@ -138,7 +138,7 @@ class LimbRiggerWidget(MayaWindow): #Definition for a class called LimbRiggerWid
         self.masterLayout = QVBoxLayout() #sets self.masterLayout to be a QVBoxLayout class
         self.setLayout(self.masterLayout) #sets the layout of the widget to masterLayout
 
-        self.setWindowTitle("Limb Rigger") #sets the widgets window title to LimbRigger
+        self.setWindowTitle("Limb Rigger v1.0.0") #sets the widgets window title to LimbRigger
 
         toolTipLabel = QLabel("Select the first joint of the limb, and press the auto find button") #Sets toolTipLabel to a QLabel widget
         self.masterLayout.addWidget(toolTipLabel) #Adds the toolTipLabel widget to the masterLayout
