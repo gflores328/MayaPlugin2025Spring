@@ -124,11 +124,9 @@ class LimbRigger: #Definition for a class called LimbRigger
         topGrpName = f"{self.root}_rig_grp"
         mc.group([rootCtrlGrp, ikEndCtrlGrp, poleVectorCtrlGrp, ikfkBlendCtrlGrp], n = topGrpName)
 
-#######################################################
         mc.setAttr(topGrpName+ ".overrideEnabled", 1)
         mc.setAttr(topGrpName + ".overrideColor", self.colorIndex)
         mc.parent(ikHandleName, ikEndCtrl)
-#######################################################
 
 class LimbRiggerWidget(MayaWindow): #Definition for a class called LimbRiggerWidget that inherits from the MayaWindow class which inherits QWidget
     def __init__(self): #Definiton for the class contructor
@@ -163,7 +161,6 @@ class LimbRiggerWidget(MayaWindow): #Definition for a class called LimbRiggerWid
         ctrlSizeLayout.addWidget(self.ctrlSizeLabel)
         self.masterLayout.addLayout(ctrlSizeLayout)
 
-#######################################################
         ctrlColorSlider = QSlider()
         ctrlColorSlider.setOrientation(Qt.Horizontal)
         ctrlColorSlider.setRange(1,31)
@@ -181,17 +178,19 @@ class LimbRiggerWidget(MayaWindow): #Definition for a class called LimbRiggerWid
         ctrlColorLayout.addWidget(ctrlColorSlider)
         ctrlColorLayout.addWidget(self.ctrlColorLabel)
         self.masterLayout.addLayout(ctrlColorLayout)
-########################################################
 
         rigLimbBtn = QPushButton("Rig Limb") #sets rigLimbBtn to be a QPushButton widget that says "Rig Limb"
         rigLimbBtn.clicked.connect(lambda : self.rigger.RigLimb()) #when rigLimbBtn is clicked it calls a lambda function of RigLimb
         self.masterLayout.addWidget(rigLimbBtn) #adds the rigLimbBtn widget to the masterLayout
 
+        controllorColorBtn = QPushButton("Set Color") 
+        controllorColorBtn.clicked.connect(self.ControllerColorBtnClicked)
+        self.masterLayout.addWidget(controllorColorBtn)
+
     def CtrlSizeSliderChanged(self, newValue):
         self.ctrlSizeLabel.setText(f"{newValue}")
         self.rigger.controllerSize = newValue
 
-########################################################
     def CtrlColorSliderChanged(self, newValue):
         #self.ctrlColorLabel.setText(f"{newValue}")
         rgb = mc.colorIndex(newValue, q = True)
@@ -199,7 +198,6 @@ class LimbRiggerWidget(MayaWindow): #Definition for a class called LimbRiggerWid
         self.ctrlColorLabel.setStyleSheet(f"background-color: {rgb_str}")
 
         self.rigger.colorIndex = newValue
-########################################################
 
     def AutoFindJntBtnClicked(self): #Definitoin for a function called AutoFindJntBtnClicked that has no parameters
         try: #The start of a try block
@@ -207,6 +205,12 @@ class LimbRiggerWidget(MayaWindow): #Definition for a class called LimbRiggerWid
             self.jntsListLineEdit.setText(f"{self.rigger.root}, {self.rigger.mid}, {self.rigger.end}") #sets the text of the QLineEdit widget to be the jnts that are selected
         except Exception as e: #the start of an except
             QMessageBox.critical(self, "Error", f"{e}") #Calls a window error if anything in the try block fails
+
+    def ControllerColorBtnClicked(self):
+        controller = mc.ls(sl = True)[0]
+        print (controller)
+        mc.setAttr(controller + ".overrideEnabled", 1)
+        mc.setAttr(controller + ".overrideColor", self.rigger.colorIndex)
 
 limbRiggerWidget = LimbRiggerWidget() #sets limbRiggerWidget to be a LimbRiggerWidget class
 limbRiggerWidget.show() #Shows the limbRiggerWidget on the Maya window
