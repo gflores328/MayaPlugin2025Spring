@@ -1,29 +1,14 @@
-from PySide2.QtWidgets import QHBoxLayout, QLabel, QLineEdit, QMainWindow, QMessageBox, QPushButton, QSlider, QVBoxLayout, QWidget #imports classes from PySide2.QtWidgets
+import importlib
+import MayaUtils
+importlib.reload(MayaUtils)
+
+from MayaUtils import MayaWindow
+from PySide2.QtWidgets import QHBoxLayout, QLabel, QLineEdit, QMessageBox, QPushButton, QSlider, QVBoxLayout #imports classes from PySide2.QtWidgets
 from PySide2.QtCore import Qt #imports the Qt class from PySide2.QtCore
 from maya.OpenMaya import MVector
-import maya.OpenMayaUI as omui #imports access to the Maya UI and names it as omui
 import maya.mel as mel
-import shiboken2 #imports shiboken2
-
-def GetMayaMainWindow()->QMainWindow: #Definition of a function called GetMayaMainWindow that must return a QMainWindow
-    mainWindow = omui.MQtUtil.mainWindow() #mainWindow is set to the main window of Maya gotten throught the omui import
-    return shiboken2.wrapInstance(int(mainWindow), QMainWindow) #creates a wrapper for mainWindow using its memory adress and wraps as a QMainWindow class
-
-def DeleteWidgetWithName(name): #Definition of a function calledDeleteWidgetWithName that takes a string as a parameter
-    for widget in GetMayaMainWindow().findChildren(QWidget, name): #Loops thorugh each window that is open in Maya that has the name passed through the function
-        widget.deleteLater() #Deletes the reference of the widget from memory
-
-class MayaWindow(QWidget): #Definition for a class called MayaWindow that inherits from the QWidgetClass
-    def __init__(self): #Definition for the classses constructor
-        super().__init__(parent = GetMayaMainWindow()) #Calls the constructor of the parent class and sets that widgets parent as the return of GetMayaMainWindow
-        DeleteWidgetWithName(self.GetWidgetUniqueName()) #Calls DeleteWidgetWithName and passes the return of the GetWidgetWithUniqueName function as the name of the widget to be deleted
-        self.setWindowFlags(Qt.WindowType.Window) #Sets the window flags of the classes widget to be of WindowType Window
-        self.setObjectName(self.GetWidgetUniqueName()) #Sets the name of the classes widget inherited to be the return of GetWidgetUniqueName
-
-    def GetWidgetUniqueName(self): #Definition for a function called GetWidgetWithUniqueName that has no parameters
-        return "fdfdfdfdfdfdff8732t5c8475tb38745btc982sdfsdf7345tcb473" #returns a string
- 
 import maya.cmds as mc #imports maya.cmds and names it as mc
+
 class LimbRigger: #Definition for a class called LimbRigger
     def __init__(self): #Definition for the constructor of the LimbRigger class
         self.root = "" #sets the classes root variable to be an empty string
@@ -223,5 +208,3 @@ class LimbRiggerWidget(MayaWindow): #Definition for a class called LimbRiggerWid
 
 limbRiggerWidget = LimbRiggerWidget() #sets limbRiggerWidget to be a LimbRiggerWidget class
 limbRiggerWidget.show() #Shows the limbRiggerWidget on the Maya window
-
-GetMayaMainWindow() #Calls the GetMayaWindow function
