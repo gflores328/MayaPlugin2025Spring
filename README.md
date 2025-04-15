@@ -10,3 +10,4 @@ this plugin rigs 3 joint limb with ik and fk and ikfk blend.
 * support auto joint finding
 * controller size control
 * controller color control
+* changing the color of a controller after it is made

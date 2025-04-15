@@ -208,9 +208,18 @@ class LimbRiggerWidget(MayaWindow): #Definition for a class called LimbRiggerWid
 
     def ControllerColorBtnClicked(self):
         controller = mc.ls(sl = True)[0]
-        print (controller)
+            
+        if not controller:
+            QMessageBox.critical(self, "Error", "No Selection ")
+            return
+        
+        if not any(x in controller for x in["ac_", "fk_", "ik_"]):
+            QMessageBox.critical(self, "Error", "A  controller was not selected")
+            return
+        
         mc.setAttr(controller + ".overrideEnabled", 1)
         mc.setAttr(controller + ".overrideColor", self.rigger.colorIndex)
+
 
 limbRiggerWidget = LimbRiggerWidget() #sets limbRiggerWidget to be a LimbRiggerWidget class
 limbRiggerWidget.show() #Shows the limbRiggerWidget on the Maya window
