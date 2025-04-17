@@ -62,6 +62,6 @@ this plugin creates a proxy model based off of the joints in a mesh
 > * QLabel to tell the user what to do
 > * QPushButton to run BuildProxyForSelectedMesh
 
-* **GetWindowUniqueName**
+* **GetWindowUniqueName()**
 
     * returns a unique string for the windows name
